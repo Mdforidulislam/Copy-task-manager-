@@ -1,12 +1,12 @@
-import { SidebarWithSearch } from "../Components/LeftSidebar/NavbarPc";
+import { LeftSidePc } from "../Components/LeftSidebar/NavbarPc";
 
 
 
-const LeftBare = () => {
+const LeftBare = ({setBoardName,data,refetch}) => {
     return (
         <div>
             <div className='hidden lg:flex'>
-               <SidebarWithSearch/>
+               <LeftSidePc setBoardName={setBoardName} data={data} refetch={refetch}/>
             </div>
         </div>
     );

@@ -1,13 +1,13 @@
 import { useContext } from "react";
-import { shareAuth } from "./Auth/Authentication";
 import { Navigate } from "react-router-dom";
+import { usecontextHook } from "./Auth/Context";
 
 
 const PrivetRoute = ({children}) => {
-    const {userinfo ,loading } = useContext(shareAuth)
-    console.log(userinfo);
+    const {userInfo ,loading } = useContext(usecontextHook)
+    console.log(userInfo);
     if(loading)<div>loadding......</div>
-   if (userinfo) {
+   if (userInfo) {
     return children;
    }
    return <Navigate to='/login'/>

@@ -1,22 +1,44 @@
-import { createContext, useContext } from "react";
-import { Link } from "react-router-dom";
-import { shareAuth } from "../Auth/Authentication";
+import { useContext } from "react";
+import { Link, Navigate, useNavigate } from "react-router-dom";
+import { usecontextHook } from "../Auth/Context";
 
 const Login = () => {
-
-  const {singinPassword , googleLogin , singInGithub} = useContext(shareAuth)
-
-
+  const {userLoginwithEmail , loginWithGoogle , loginWithGithub} = useContext(usecontextHook)
+    const usenaviage = useNavigate()
   const handleLogout = (event) =>{
     event.preventDefault()
           const email = event.target.email.value;
           const passowrd = event.target.currentPassword.value;
           console.log(email,passowrd);
-          singinPassword(email,passowrd)
-          .then(result => console.log(result))
+          userLoginwithEmail(email,passowrd)
+          .then(result => {
+            console.log(result)
+            usenaviage('/dashboard')
+          })
           .catch(error => console.log(error))
   }
 
+
+  const handleGoogleLogin = () =>{
+    loginWithGoogle()
+    .then(result => {
+      console.log(result)
+      usenaviage('/dashboard')
+    })
+    .catch(error => console.log(error))
+
+  }
+
+  const handleGithubLogin = () =>{
+    loginWithGithub()
+    .then(result => {
+      console.log(result)
+      usenaviage('/dashboard')
+    })
+    .catch(error => console.log(error))
+  }
+
+  
 
 
 
@@ -99,10 +121,10 @@ const Login = () => {
             </button>
 
             <div className="flex  justify-between mt-7">
-                <div onClick={googleLogin} className=" px-12 py-2 shadow-2xl border-2">
+                <div onClick={handleGoogleLogin} className=" px-12 py-2 shadow-2xl border-2">
                   <h1>Google </h1>
                 </div>
-                <div onClick={singInGithub} className=" px-12 py-2 shadow-2xl border-2">
+                <div onClick={handleGithubLogin} className=" px-12 py-2 shadow-2xl border-2">
                   <h1>Github</h1>
                 </div>
             </div>

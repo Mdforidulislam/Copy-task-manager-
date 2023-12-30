@@ -26,7 +26,8 @@ import {
   Bars2Icon,
 } from "@heroicons/react/24/solid";
 import { Link } from "react-router-dom";
-import { shareAuth } from "../Auth/Authentication";
+import { usecontextHook } from "../Auth/Context";
+
 
 // profile menu component
 const profileMenuItems = [
@@ -172,7 +173,7 @@ function NavList() {
 
 export function ComplexNavbar() {
   const [isNavOpen, setIsNavOpen] = React.useState(false);
-  const { userinfo , logoutUser } = useContext(shareAuth);
+  const { userInfo , singOutUser } = useContext(usecontextHook);
   const toggleIsNavOpen = () => setIsNavOpen((cur) => !cur);
 
   React.useEffect(() => {
@@ -183,12 +184,33 @@ export function ComplexNavbar() {
   }, []);
 
 
-  console.log(logoutUser);
+  console.log(singOutUser);
   const handlesingOut = () =>{
-    logoutUser()
+    singOutUser()
     .then((result) => console.log(result))
     .catch((error) => console.log(error));
   }
+
+
+
+
+
+  // On page load or when changing themes, best to add inline in `head` to avoid FOUC
+if (localStorage.theme === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+  document.documentElement.classList.add('dark')
+} else {
+  document.documentElement.classList.remove('dark')
+}
+
+// Whenever the user explicitly chooses light mode
+localStorage.theme = 'light'
+
+// Whenever the user explicitly chooses dark mode
+localStorage.theme = 'dark'
+
+// Whenever the user explicitly chooses to respect the OS preference
+localStorage.removeItem('theme')
+
 
 
 
@@ -216,21 +238,22 @@ export function ComplexNavbar() {
         </IconButton>
 
         <Button size="sm" variant="text">
-          {userinfo? (
-            <span onClick={handlesingOut}>Log Out</span>
-          ) : (
-            <Link to={"/login"}>
+         {  userInfo? <Link onClick={handlesingOut} >
+              <span>logOut</span>
+            </Link> : <Link  to={"/login"}>
               <span>Log In</span>
-            </Link>
-          )}
+            </Link> }
         </Button>
 
-      {userinfo ?  <Button size="sm" variant="text">
+      {userInfo ?  <Button size="sm" variant="text">
           <Link to={"/dashboard"}>
             <h1>Dashboard</h1>
           </Link>
         </Button> : ' '}
         <ProfileMenu />
+      </div>
+      <div>
+         
       </div>
       <MobileNav open={isNavOpen} className="overflow-scroll">
         <NavList />

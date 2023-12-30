@@ -1,3 +1,4 @@
+import TaskManagerApp from "../TaskMang/Kanban";
 import Kanban from "../TaskMang/Kanban";
 
 
@@ -7,7 +8,7 @@ const DragDropList = () => {
 
   return (
    <div>
-     <Kanban/>
+     <TaskManagerApp/>
    </div>
   );
 };

@@ -1,8 +1,9 @@
 import React, { useContext, useState } from 'react';
-import { shareAuth } from '../Auth/Authentication';
+import { usecontextHook } from '../Auth/Context';
+
 
 const RegisterForm = () => {
-  const {userCreateWithEmail} = useContext(shareAuth)
+  const {userCratewithEmail} = useContext(usecontextHook)
   const [formData, setFormData] = useState({
     name: '',
     email: '',
@@ -27,7 +28,7 @@ const RegisterForm = () => {
 
 console.log(email,password);
 
-    userCreateWithEmail(email,password)
+    userCratewithEmail(email,password)
     .then(result => console.log(result))
     .catch(error => console.log(error))
 
